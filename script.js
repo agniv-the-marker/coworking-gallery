@@ -137,6 +137,27 @@ nextDayButton.addEventListener('click', () => {
     updateMode();
 });
 
+window.addEventListener('scroll', adjustNavigationPosition);
+
+function adjustNavigationPosition() {
+    const titleContainer = document.querySelector('.header');
+    const navigation = document.querySelector('.navigation');
+
+    // Get the position of the title-container
+    const titleHeight = titleContainer.offsetHeight;
+    const scrollTop = window.scrollY;
+
+    // Adjust the top position of the navigation based on scroll position
+    if (scrollTop >= titleHeight) {
+        navigation.style.top = `${0}px`;
+    } else {
+        navigation.style.top = `${titleHeight}px`;
+    }
+}
+
+// Call the function initially in case the page is loaded with some scroll
+adjustNavigationPosition();
+
 // Initialization
 window.onload = () => {
     currentDayIndex = 0; // Start with the first day date
