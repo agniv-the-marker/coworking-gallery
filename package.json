@@ -1,6 +1,6 @@
 {
   "homepage": "https://orchard.agniv.me",
-  "name": "coworking-gallery",
+  "name": "[orchard] gallery",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

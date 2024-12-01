@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
+const CoworkingSpaceGallery = () => {
+  const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isDayMode, setIsDayMode] = useState(true);
+
+  // Predefined image lists
 // Day images
 const dayImages = [
 '/images/daytime/DSC_0001.JPG',
@@ -226,118 +232,100 @@ const nightImages = [
 '/images/nighttime/DSC_0049.JPG'
 ];
 
-const CoworkingSpaceGallery = () => {
-  const [isDayMode, setIsDayMode] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
-
+  // Simple toggle mode function
   const toggleMode = () => {
     setIsDayMode(!isDayMode);
   };
 
-  const currentImages = isDayMode ? dayImages : nightImages;
+  // Update images when mode changes
+  useEffect(() => {
+    setImages(isDayMode ? dayImages : nightImages);
+  }, [isDayMode]);
 
   return (
     <div 
-      className={`min-h-screen transition-colors duration-500 ${
+      className={`min-h-screen p-4 transition-colors duration-500 ${
         isDayMode 
           ? 'bg-white text-gray-800' 
           : 'bg-gray-900 text-white'
       }`}
     >
-      <div className="max-w-6xl mx-auto p-4">
-        {/* Day/Night Toggle */}
-        <div className="flex justify-end mb-4">
-          <label className="flex items-center cursor-pointer">
-            <div className="relative">
-              <input 
-                type="checkbox" 
-                className="sr-only" 
-                checked={!isDayMode}
-                onChange={toggleMode}
-              />
-              <div 
-                className={`w-16 h-8 rounded-full shadow-inner transition-colors duration-300 ${
-                  isDayMode 
-                    ? 'bg-yellow-300' 
-                    : 'bg-indigo-600'
-                }`}
-              />
-              <div 
-                className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ${
-                  isDayMode 
-                    ? 'transform translate-x-0' 
-                    : 'transform translate-x-8'
-                }`}
-              />
-            </div>
-            <span className="ml-3">
-              {isDayMode ? 'Day Mode' : 'Night Mode'}
-            </span>
-          </label>
-        </div>
-
-        {/* Gallery Header */}
-        <div className="flex items-center mb-6">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="36" 
-            height="36" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className="mr-3"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polygon points="21 15 16 10 5 21"></polygon>
-          </svg>
-          <h1 className="text-3xl font-bold">
-            Coworking Space Gallery
-          </h1>
-        </div>
-
-        {/* Image Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {currentImages.map((image, index) => (
+      {/* Day/Night Toggle */}
+      <div className="flex justify-end mb-4">
+        <label className="flex items-center cursor-pointer">
+          <div className="relative">
+            <input 
+              type="checkbox" 
+              className="sr-only" 
+              checked={!isDayMode}
+              onChange={toggleMode}
+            />
             <div 
-              key={index} 
-              className={`overflow-hidden rounded-lg shadow-md hover:scale-105 transition-transform cursor-pointer ${
+              className={`w-16 h-8 rounded-full shadow-inner transition-colors duration-300 ${
                 isDayMode 
-                  ? 'hover:shadow-lg' 
-                  : 'hover:shadow-xl hover:shadow-indigo-500/50'
+                  ? 'bg-yellow-300' 
+                  : 'bg-indigo-600'
               }`}
-              onClick={() => setSelectedImage(image)}
-            >
-              <img 
-                src={image} 
-                alt={`Coworking space ${index + 1}`} 
-                className="w-full h-48 object-cover"
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Enlarged Image Modal */}
-        {selectedImage && (
-          <div 
-            className={`fixed inset-0 flex items-center justify-center z-50 p-4 transition-colors duration-500 ${
-              isDayMode 
-                ? 'bg-black bg-opacity-75' 
-                : 'bg-gray-900 bg-opacity-90'
-            }`}
-            onClick={() => setSelectedImage(null)}
-          >
-            <img 
-              src={selectedImage} 
-              alt="Enlarged view" 
-              className="max-w-full max-h-full object-contain"
+            />
+            <div 
+              className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ${
+                isDayMode 
+                  ? 'transform translate-x-0' 
+                  : 'transform translate-x-8'
+              }`}
             />
           </div>
-        )}
+          <span className="ml-3">
+            {isDayMode ? 'Day Mode' : 'Night Mode'}
+          </span>
+        </label>
       </div>
+
+      {/* Gallery Title */}
+      <h1 className={`text-3xl font-bold mb-6 ${
+        isDayMode ? 'text-gray-800' : 'text-white'
+      }`}>
+        Coworking Space Gallery
+      </h1>
+
+      {/* Image Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {images.map((image, index) => (
+          <div 
+            key={index} 
+            className={`overflow-hidden rounded-lg shadow-md hover:scale-105 transition-transform cursor-pointer ${
+              isDayMode 
+                ? 'hover:shadow-lg' 
+                : 'hover:shadow-xl hover:shadow-indigo-500/50'
+            }`}
+            onClick={() => setSelectedImage(image)}
+          >
+            <img 
+              src={image} 
+              alt={`Coworking space ${index + 1}`} 
+              className="w-full h-48 object-cover"
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Enlarged Image Modal */}
+      {selectedImage && (
+        <div 
+          className={`fixed inset-0 flex items-center justify-center z-50 p-4 transition-colors duration-500 ${
+            isDayMode 
+              ? 'bg-black bg-opacity-75' 
+              : 'bg-gray-900 bg-opacity-90'
+          }`}
+          onClick={() => setSelectedImage(null)}
+        >
+          <img 
+            src={selectedImage} 
+            alt="Enlarged view" 
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      )}
     </div>
   );
 };
