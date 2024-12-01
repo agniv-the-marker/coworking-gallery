@@ -43,6 +43,7 @@ function renderGallery(imagesByDate, isDayMode) {
     const images = imagesByDate[date];
     
     gallery.innerHTML = ''; // Clear gallery
+    
     images.forEach((src) => {
         const img = document.createElement('img');
         img.src = src;

@@ -87,24 +87,38 @@ body {
     display: flex;
     flex-wrap: wrap;
     margin-top: 120px; /* Increased space for the header */
+    margin-bottom: 90px; /* Increased space for the footer */
+    margin-left: 5%;
+    margin-right: 5%;
     justify-content: center;
     gap: 10px;
 }
 
-
+/* Gallery images */
 .gallery img {
-    max-width: calc(25% - 10px); /* Maximum width, allows for up to 4 images per row */
+    max-width: calc(25% - 10px);
     flex-grow: 1;
     object-fit: cover;
     height: auto;
     border-radius: 5px;
     padding: 10px;
     position: relative;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
     transform-origin: center;
     transform: scale(0.9) rotate(var(--rotation));
     box-shadow: var(--offsetX) var(--offsetY) 5px rgba(0, 0, 0, 0.5);
+    background-color: var(--padding-color); /* Use custom CSS variable for background color */
 }
+
+/* Adjust padding color based on day/night mode */
+.light-mode .gallery img {
+    --padding-color: #001f3f;  /* Dark blue padding for day */
+}
+
+.dark-mode .gallery img {
+    --padding-color: #f5deb3;  /* Light brown padding for night */
+}
+
 
 /* Dim the images */
 .gallery img::before {
