@@ -16,21 +16,29 @@ body {
     color: #fff;
 }
 
+/* Header styles */
 .header {
     position: fixed;
     top: 0;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
-    padding: 10px 20px;
     z-index: 1;
 }
 
 .title-container {
     display: flex;
     align-items: center;
+}
+
+.title {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    transition: color 0.5s;
 }
 
 .title-link {
@@ -43,44 +51,35 @@ body {
     text-decoration-thickness: 2px;  /* Make the underline thinner */
 }
 
-.title {
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
-    transition: color 0.5s;
-}
-
 .date {
-    font-size: 14px; /* Smaller text for the date */
-    margin-left: 10px;
+    font-size: 12px;
+    margin-left: 5px;
 }
 
 #toggle {
-    padding: 5px 15px;
-    background-color: #333; /* Dark background during the day */
-    color: #fff;            /* Light text during the day */
+    padding: 5px 10px;
+    background-color: #333;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    font-size: 14px;
 }
 
 .navigation {
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 10px;
-    flex: 1;
+    margin-right: 30px;
 }
 
 .nav-button {
-    padding: 5px 15px;
-    margin: 0;
+    padding: 5px 10px;
     background: none;
     border: 1px solid currentColor;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .gallery {
@@ -97,10 +96,7 @@ body {
 
 /* Gallery images */
 .gallery img {
-    max-width: calc(25% - 10px);
     flex-grow: 1;
-    object-fit: cover;
-    height: 200px; /* Fixed height to align all images */
     border-radius: 5px;
     padding: 10px;
     position: relative;
@@ -116,14 +112,18 @@ body {
 
 /* Style horizontal images */
 .gallery img.horizontal {
+    grid-column: auto / span 2;
     width: auto;
     height: 200px; /* Ensure consistent height */
+    max-height: 100%; /* Let the image take the full height */
     object-fit: cover;
 }
 
 /* Style vertical images */
 .gallery img.vertical {
+    grid-row: span 2;
     height: 100%; /* Let the image take the full height */
+    max-width: calc(25% - 10px);
     width: auto;
     object-fit: cover; /* Keep aspect ratio */
 }
@@ -166,6 +166,10 @@ body {
 
 /* Randomize the height for mixing horizontal/vertical images */
 .gallery img.random-height {
+    grid-row: span 2;
+    grid-column: span 2;
+    max-height: 220px; /* Adjust as needed */
+    justify-self: center;
     height: calc(100px + (200 * Math.random()))px; /* Random height between 100px and 300px */
 }
 
@@ -178,20 +182,27 @@ body {
 
 /* Footer at the bottom of the page */
 .footer {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px 0;
     position: fixed;
-    bottom: 10px;
+    bottom: 0;
     width: 100%;
     text-align: center;
     font-size: 14px;
     transition: color 0.5s;
 }
 
-/* Instagram Icon styling */
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .instagram-link {
-    margin-left: 10px;  /* Space between text and icon */
-    color: inherit;  /* Inherit text color */
-    text-decoration: none;  /* Remove underline */
-    font-size: 16px;  /* Smaller Instagram icon */
+    margin-left: 10px;
+    color: inherit;
+    text-decoration: none;
+    font-size: 16px;
 }
 
 /* Instagram icon color based on light/dark mode */
@@ -237,4 +248,27 @@ body {
 .dark-mode #toggle {
     background-color: #f5deb3; /* Light background during the night */
     color: #333;               /* Dark text during the night */
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .title-container {
+        margin-bottom: 10px;
+    }
+
+    .navigation {
+        width: 100%;
+        justify-content: center;
+        margin-right: 0; /* Reset right margin for mobile layout */
+    }
+
+    #toggle,
+    .nav-button {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
 }
