@@ -19,36 +19,62 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: transparent;
+    padding: 20px;
     text-align: center;
-    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
     z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin: 0;
 }
 
 #toggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.sun-moon-icon {
+    font-size: 1.5em;
 }
 
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 60px;
+    margin-top: 100px;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
+    padding: 10px;
 }
 
 .gallery img {
-    max-width: calc(50% - 10px);
+    max-width: 45%;
     flex-grow: 1;
     object-fit: cover;
     height: auto;
     border-radius: 5px;
-    transition: transform 0.3s;
+    transition: transform 0.3s, margin 0.3s;
+    padding: 5px;
 }
 
 .gallery img:hover {
     transform: scale(1.05);
+}
+
+.gallery img.offset {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+/* Styling for the light and dark modes */
+.light-mode .gallery img {
+    filter: brightness(1);
+}
+
+.dark-mode .gallery img {
+    filter: brightness(0.8);
 }

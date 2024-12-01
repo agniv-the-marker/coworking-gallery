@@ -9,7 +9,9 @@
 <body>
     <div class="header">
         <h1>[orchard] gallery</h1>
-        <button id="toggle">Switch to Night Mode</button>
+        <button id="toggle" aria-label="Toggle Day/Night Mode">
+            <span id="icon" class="sun-moon-icon">🌞</span>
+        </button>
     </div>
     <div id="gallery" class="gallery"></div>
     <audio id="background-music" loop></audio>

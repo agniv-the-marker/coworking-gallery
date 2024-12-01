@@ -2,16 +2,24 @@
 const gallery = document.getElementById('gallery');
 const toggleButton = document.getElementById('toggle');
 const backgroundMusic = document.getElementById('background-music');
+const icon = document.getElementById('icon');
 
 // Initial state
 let isDay = true;
 
-// Function to render images
+// Function to render images with random offset
 function renderGallery(images) {
-    gallery.innerHTML = '';
+    gallery.innerHTML = ''; // Clear the gallery
+
     images.forEach((src) => {
         const img = document.createElement('img');
         img.src = src;
+
+        // Randomly offset images by adding a class
+        if (Math.random() > 0.5) {
+            img.classList.add('offset');
+        }
+
         gallery.appendChild(img);
     });
 }
@@ -22,12 +30,14 @@ function updateMode() {
         document.body.className = 'light-mode';
         renderGallery(dayImages);
         backgroundMusic.src = '/audio/day-music.mp3';
-        toggleButton.textContent = 'Switch to Night Mode';
+        icon.textContent = '🌞';
+        toggleButton.setAttribute('aria-label', 'Switch to Night Mode');
     } else {
         document.body.className = 'dark-mode';
         renderGallery(nightImages);
         backgroundMusic.src = '/audio/night-music.mp3';
-        toggleButton.textContent = 'Switch to Day Mode';
+        icon.textContent = '🌙';
+        toggleButton.setAttribute('aria-label', 'Switch to Day Mode');
     }
     backgroundMusic.play();
 }
