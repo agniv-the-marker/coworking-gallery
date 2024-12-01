@@ -1,142 +1,80 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { dayImages, nightImages } from './images';
 
-const ImageGallery = () => {
+const App = () => {
+  const [isDayMode, setIsDayMode] = useState(true);
+  const [audioElement, setAudioElement] = useState(null);
 
-  const [isNightMode, setIsNightMode] = useState(false);
-  const [images, setImages] = useState(dayImages);
-  const audioRef = useRef(null);
-
-  // Determine image orientation
-  const getImageOrientation = (src) => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        resolve(img.width > img.height ? 'horizontal' : 'vertical');
-      };
-      img.src = src;
-    });
-  };
-
-  // Organize images into rows
-  const organizeImages = async (imageList) => {
-    const orientations = await Promise.all(
-      imageList.map(async (src) => {
-        try {
-          return await getImageOrientation(src);
-        } catch (error) {
-          console.error(`Error getting orientation for image ${src}: ${error}`);
-          return 'horizontal'; // Default to horizontal if there's an error
-        }
-      })
-    );
-
-    const rows = [];
-    let currentRow = [];
-
-    for (let i = 0; i < imageList.length; i++) {
-      currentRow.push({
-        src: imageList[i],
-        orientation: orientations[i]
-      });
-
-      // Rule for row creation
-      if (orientations[i] === 'horizontal' && currentRow.length === 2) {
-        rows.push(currentRow);
-        currentRow = [];
-      } else if (orientations[i] === 'vertical' && currentRow.length === 3) {
-        rows.push(currentRow);
-        currentRow = [];
-      }
-    }
-
-    // Add any remaining images
-    if (currentRow.length > 0) {
-      rows.push(currentRow);
-    }
-
-    return rows;
-  };
-
-  // Toggle mode
+  // Toggle between day and night modes
   const toggleMode = () => {
-    setIsNightMode(!isNightMode);
+    setIsDayMode(!isDayMode);
   };
 
-  // Effect to change images and audio
+  // Handle audio changes when mode is toggled
   useEffect(() => {
-    setImages(isNightMode ? nightImages : dayImages);
-
-    if (audioRef.current) {
-      audioRef.current.src = isNightMode 
-        ? '/audio/night-music.mp3' 
-        : '/audio/day-music.mp3';
-      audioRef.current.play();
+    if (audioElement) {
+      audioElement.pause();
+      audioElement.src = isDayMode 
+        ? '/audio/day-music.mp3' 
+        : '/audio/night-music.mp3';
+      audioElement.play().catch(error => console.log('Audio play failed:', error));
     }
-  }, [isNightMode]);
+  }, [isDayMode, audioElement]);
 
-  // State for organized images
-  const [imageRows, setImageRows] = useState([]);
-
-  // Organize images when images change
+  // Initialize audio on component mount
   useEffect(() => {
-    const organizeAndSetImages = async () => {
-      const rows = await organizeImages(images);
-      setImageRows(rows);
+    const audio = new Audio('/audio/day-music.mp3');
+    audio.loop = true;
+    setAudioElement(audio);
+
+    // Cleanup audio on unmount
+    return () => {
+      audio.pause();
     };
-    organizeAndSetImages();
-  }, [images]);
+  }, []);
+
+  // Play audio when component mounts
+  useEffect(() => {
+    if (audioElement) {
+      audioElement.play().catch(error => console.log('Initial audio play failed:', error));
+    }
+  }, [audioElement]);
 
   return (
     <div 
-      className={`min-h-screen flex flex-col ${
-        isNightMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
-      } transition-colors duration-300`}
+      className={`min-h-screen p-4 transition-colors duration-500 ${
+        isDayMode ? 'bg-white text-black' : 'bg-gray-900 text-white'
+      }`}
     >
-      {/* Audio Element */}
-      <audio 
-        ref={audioRef} 
-        loop 
-        className="hidden"
-      />
-
       {/* Header */}
-      <header className="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800">
-        <h1 className="text-2xl font-bold">[orchard] gallery</h1>
-        <button 
+      <div className="flex items-center justify-between mb-6">
+        <div className="w-1/3"></div>
+        <h1 className="text-2xl font-bold text-center flex-grow">
+          [orchard] gallery
+        </h1>
+        
+        {/* Mode Toggle */}
+        <div 
           onClick={toggleMode} 
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          className="cursor-pointer hover:bg-gray-200 p-2 rounded-full transition"
         >
-          {isNightMode ? <Sun size={24} /> : <Moon size={24} />}
-        </button>
-      </header>
+          {isDayMode ? <Moon size={24} /> : <Sun size={24} />}
+        </div>
+      </div>
 
       {/* Image Grid */}
-      <div className="flex-grow flex flex-col items-center justify-center p-4 space-y-4">
-        {imageRows.map((row, rowIndex) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {(isDayMode ? dayImages : nightImages).map((image, index) => (
           <div 
-            key={rowIndex} 
-            className="flex space-x-4 justify-center"
+            key={index} 
+            className="flex justify-center items-center overflow-hidden"
           >
-            {row.map((image, imgIndex) => (
-              <div 
-                key={imgIndex}
-                className={`
-                  ${image.orientation === 'horizontal' 
-                    ? 'w-[600px] h-[400px]' 
-                    : 'w-[400px] h-[600px]'
-                  } 
-                  object-cover overflow-hidden
-                `}
-              >
-                <img 
-                  src={image.src} 
-                  alt={`Gallery image ${rowIndex}-${imgIndex}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+            <img 
+              src={image} 
+              alt={`Gallery image ${index + 1}`}
+              className="max-w-full max-h-[500px] object-contain"
+            />
           </div>
         ))}
       </div>
@@ -144,4 +82,4 @@ const ImageGallery = () => {
   );
 };
 
-export default ImageGallery;
+export default App;
