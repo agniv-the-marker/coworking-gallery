@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[orchard] garden</title>
+    <title>[orchard] gallery</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>[orchard] garden</h1>
-        <button id="toggle-mode" aria-label="Toggle Day and Night">🌞</button>
-    </header>
-    <main>
-        <div id="gallery"></div>
-    </main>
-    <footer>
-        <button id="prev-date">before.</button>
-        <button id="next-date">after?</button>
-    </footer>
+    <div class="header">
+        <h1 class="title">[orchard] gallery</h1>
+        <div class="navigation">
+            <button id="prev-day" class="nav-button">← before.</button>
+            <button id="next-day" class="nav-button">after? →</button>
+        </div>
+        <button id="toggle">Switch to Night Mode</button>
+    </div>
+    <div id="gallery" class="gallery"></div>
+    <audio id="background-music" loop></audio>
+    <script src="images.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

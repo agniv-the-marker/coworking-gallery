@@ -1,89 +1,76 @@
 body {
     margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.5s, color 0.5s;
 }
 
-header {
+.light-mode {
+    background-color: #f5deb3; /* Light brown */
+    color: #000;
+}
+
+.dark-mode {
+    background-color: #001f3f; /* Cool dark blue */
+    color: #fff;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
+    background: transparent;
+    padding: 10px;
+    z-index: 1;
 }
 
-h1 {
-    font-size: 1.5rem;
+.title {
     margin: 0;
+    padding: 0;
+    font-size: 24px;
 }
 
-#toggle-mode {
+#toggle {
+    padding: 5px 10px;
+}
+
+.navigation {
+    text-align: center;
+}
+
+.nav-button {
+    padding: 5px 15px;
+    margin: 0 5px;
     background: none;
-    border: none;
-    font-size: 1.5rem;
+    border: 1px solid currentColor;
+    border-radius: 5px;
     cursor: pointer;
-    color: white;
 }
 
-main {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: calc(100vh - 120px);
-    padding: 20px;
-}
-
-#gallery {
+.gallery {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    margin-top: 60px;
     justify-content: center;
-    max-width: 1200px;
-    width: 100%;
+    gap: 10px;
 }
 
-#gallery img {
-    display: block;
-    width: calc(25% - 10px);
+.gallery img {
     max-width: 300px;
+    flex-grow: 1;
+    object-fit: cover;
+    height: auto;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    transition: transform 0.3s ease;
-    transform-origin: center;
-}
-
-#gallery img.rotated {
-    transform: rotate(var(--rotation)) translate(var(--x-offset), var(--y-offset)) scale(var(--scale));
-}
-
-footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-}
-
-button {
-    cursor: pointer;
     padding: 10px;
-    background-color: #444;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    font-size: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    transform-origin: center;
+    transform: scale(0.9) rotate(var(--rotation));
+    box-shadow: var(--offsetX) var(--offsetY) 5px rgba(0, 0, 0, 0.5);
 }
 
-button:hover {
-    background-color: #555;
-}
-
-body.day-mode {
-    background-color: #f4e1d2; /* Slight brown background */
-}
-
-body.night-mode {
-    background-color: #0a1d47; /* Deep blue background */
+.gallery img:hover {
+    transform: scale(1.05);
 }
