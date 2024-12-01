@@ -292,14 +292,13 @@ body {
         z-index: 10;
         text-align: center;
         width: 100%;
-        ;
     }
 
     .navigation {
         position: fixed;
         width: 100%;
         justify-content: center;
-        margin-right: 0;
+        margin-left: 20px;
         z-index: 5;
         text-align: center;
         background-color: rgba(0, 0, 0, 0.3);
