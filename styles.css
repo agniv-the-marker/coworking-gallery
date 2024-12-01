@@ -1,6 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease;
 }
 
 header {
@@ -28,7 +29,7 @@ h1 {
 main {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: calc(100vh - 120px);
     padding: 20px;
 }
@@ -38,14 +39,23 @@ main {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+    max-width: 1200px;
+    width: 100%;
 }
 
 #gallery img {
     display: block;
-    max-width: 100%;
+    width: calc(25% - 10px);
+    max-width: 300px;
     border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+#gallery img.rotated {
+    transform: rotate(var(--rotation)) translate(var(--x-offset), var(--y-offset)) scale(var(--scale));
 }
 
 footer {
@@ -58,6 +68,16 @@ footer {
 
 button {
     cursor: pointer;
+    padding: 10px;
+    background-color: #444;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #555;
 }
 
 body.day-mode {
@@ -66,8 +86,4 @@ body.day-mode {
 
 body.night-mode {
     background-color: #0a1d47; /* Deep blue background */
-}
-
-.rotated {
-    transform: rotate(var(--rotation)) translate(var(--x-offset), var(--y-offset)) scale(var(--scale));
 }
