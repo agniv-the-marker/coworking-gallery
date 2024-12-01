@@ -1,5 +1,5 @@
 const dayDates = ["2024-11-16", "2024-11-23"];
-const nightDates = ["2024-11-05", "2024-10-22", "2024-11-19"];
+const nightDates = ["2024-10-22", "2024-11-05", "2024-11-19"];
 
 const dayImagesByDate = {
     "2024-11-16": [
