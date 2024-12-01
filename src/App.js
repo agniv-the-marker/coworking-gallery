@@ -95,20 +95,15 @@ const ImageGallery = () => {
       />
 
       {/* Header */}
-      <div className="flex justify-between items-center p-4">
-        <div className="w-1/3"></div>
-        <h1 className="text-2xl font-bold text-center">
-          [orchard] gallery
-        </h1>
-        
-        {/* Mode Toggle */}
+      <header className="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800">
+        <h1 className="text-2xl font-bold">[orchard] gallery</h1>
         <button 
           onClick={toggleMode} 
-          className="p-2 rounded-full hover:bg-gray-200 transition"
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
         >
           {isNightMode ? <Sun size={24} /> : <Moon size={24} />}
         </button>
-      </div>
+      </header>
 
       {/* Image Grid */}
       <div className="flex-grow flex flex-col items-center justify-center p-4 space-y-4">
