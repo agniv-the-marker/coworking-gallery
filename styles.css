@@ -59,18 +59,41 @@ body {
 }
 
 .gallery img {
-    max-width: 300px;
+    max-width: calc(25% - 10px);  /* Maximum width, allows for up to 4 images per row */
     flex-grow: 1;
-    object-fit: cover;
+    object-fit: cover;           /* Ensures the image fills the space without distorting */
     height: auto;
     border-radius: 5px;
     padding: 10px;
+    position: relative;
     transition: transform 0.3s, box-shadow 0.3s;
     transform-origin: center;
     transform: scale(0.9) rotate(var(--rotation));
     box-shadow: var(--offsetX) var(--offsetY) 5px rgba(0, 0, 0, 0.5);
 }
 
+/* Dim the images */
+.gallery img::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black overlay to dim the image */
+    transition: opacity 0.3s;
+}
+
+/* Remove dim effect on hover */
+.gallery img:hover::before {
+    opacity: 0;
+}
+
 .gallery img:hover {
     transform: scale(1.05);
+}
+
+/* Randomize the height for mixing horizontal/vertical images */
+.gallery img.random-height {
+    height: calc(100px + (200 * Math.random()))px; /* Random height between 100px and 300px */
 }
