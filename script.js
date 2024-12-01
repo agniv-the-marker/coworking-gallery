@@ -86,16 +86,76 @@ function renderGallery(imagesByDate, isDayMode) {
     dateElement.textContent = `(${formatDate(date)})`;
 }
 
-// Function to open the image in a new tab
+// Add this to the top of your existing script.js, near other variable declarations
+let fullscreenModal = null;
+let currentFullscreenImageIndex = 0;
+let currentFullscreenImages = [];
+
+// Modify the existing openFullScreen function
 function openFullScreen(image) {
-    const imageUrl = image.src;
-    window.open(imageUrl, '_blank');  // Open image in new tab
+    // If modal doesn't exist, create it
+    if (!fullscreenModal) {
+        fullscreenModal = document.createElement('div');
+        fullscreenModal.id = 'fullscreen-modal';
+        fullscreenModal.innerHTML = `
+            <div class="fullscreen-content">
+                <button id="close-fullscreen" class="fullscreen-close">&times;</button>
+                <button id="prev-fullscreen" class="fullscreen-nav">&lt;</button>
+                <button id="next-fullscreen" class="fullscreen-nav">&gt;</button>
+                <img id="fullscreen-image" src="" alt="Fullscreen Image">
+            </div>
+        `;
+        document.body.appendChild(fullscreenModal);
+
+        // Close button event
+        const closeBtn = document.getElementById('close-fullscreen');
+        closeBtn.addEventListener('click', closeFullScreen);
+
+        // Previous and Next navigation
+        const prevBtn = document.getElementById('prev-fullscreen');
+        const nextBtn = document.getElementById('next-fullscreen');
+        prevBtn.addEventListener('click', () => navigateFullscreen(-1));
+        nextBtn.addEventListener('click', () => navigateFullscreen(1));
+
+        // Close modal when clicking outside the image
+        fullscreenModal.addEventListener('click', (e) => {
+            if (e.target === fullscreenModal) {
+                closeFullScreen();
+            }
+        });
+    }
+
+    // Prepare images for fullscreen navigation
+    currentFullscreenImages = Array.from(gallery.querySelectorAll('img'));
+    currentFullscreenImageIndex = currentFullscreenImages.indexOf(image);
+
+    // Set up the fullscreen image
+    const fullscreenImage = document.getElementById('fullscreen-image');
+    fullscreenImage.src = image.src;
+    fullscreenModal.classList.add('active');
 }
 
+// Function to navigate between images in fullscreen
+function navigateFullscreen(direction) {
+    currentFullscreenImageIndex += direction;
+
+    // Do not wrap around if we go past the start or end
+    if (currentFullscreenImageIndex >= currentFullscreenImages.length) {
+        currentFullscreenImageIndex = currentFullscreenImages.length - 1;
+    } else if (currentFullscreenImageIndex < 0) {
+        currentFullscreenImageIndex = 0;
+    }
+
+    const fullscreenImage = document.getElementById('fullscreen-image');
+    fullscreenImage.src = currentFullscreenImages[currentFullscreenImageIndex].src;
+}
 
 // Function to close the fullscreen modal
 function closeFullScreen() {
-    fullscreenModal.classList.remove('active');
+    const fullscreenModal = document.getElementById('fullscreen-modal');
+    if (fullscreenModal) {
+        fullscreenModal.classList.remove('active');
+    }
 }
 
 // Function to update the mode
