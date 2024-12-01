@@ -371,6 +371,100 @@ body {
     height: auto;
 }
 
+/* Existing styles remain the same, updating music controls styles */
+
+/* Music Controls Styles */
+.music-controls {
+    position: fixed;
+    bottom: 50px; /* Just above the footer */
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    transition: color 0.5s; /* Smooth color transition */
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 25px;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+#volume-control {
+    width: 100px;
+    margin-right: 10px;
+    appearance: none;
+    height: 5px;
+    transition: background-color 0.5s;
+}
+
+#volume-control::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.5s;
+}
+
+#play-pause-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.5s;
+}
+
+#play-pause-btn:hover {
+    transform: scale(1.2);
+}
+
+/* Light Mode Specific Styles */
+.light-mode .music-controls {
+    color: #000;
+}
+
+.light-mode .volume-container {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.light-mode #volume-control {
+    background-color: #000;
+}
+
+.light-mode #volume-control::-webkit-slider-thumb {
+    background-color: #000;
+}
+
+/* Dark Mode Specific Styles */
+.dark-mode .music-controls {
+    color: #fff;
+}
+
+.dark-mode .volume-container {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode #volume-control {
+    background-color: #fff;
+}
+
+.dark-mode #volume-control::-webkit-slider-thumb {
+    background-color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .music-controls {
+        bottom: 70px; /* Adjust for mobile */
+    }
+}
+
 @media (max-width: 768px) {
     .header {
         display: flex;

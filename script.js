@@ -4,12 +4,15 @@ const toggleButton = document.getElementById('toggle');
 const prevDayButton = document.getElementById('prev-day');
 const nextDayButton = document.getElementById('next-day');
 const backgroundMusic = document.getElementById('background-music');
-const dateElement = document.getElementById('date');  // For displaying the date
+const dateElement = document.getElementById('date');
+const volumeControl = document.getElementById('volume-control');
+const playPauseBtn = document.getElementById('play-pause-btn');
 
 // State
 let isDay = true;
 let currentDayIndex = 0;
 let currentNightIndex = 0;
+let isMusicPlaying = true;
 
 // Function to format the date
 function formatDate(dateStr) {
@@ -177,7 +180,7 @@ function closeFullScreen() {
     }
 }
 
-// Function to update the mode
+// Function to update the mode (modify existing function)
 function updateMode() {
     if (isDay) {
         document.body.className = 'light-mode';
@@ -190,12 +193,37 @@ function updateMode() {
         backgroundMusic.src = './audio/night-music.mp3';
         toggleButton.textContent = 'sunrise?';
     }
-    backgroundMusic.play();
-    // Update title color based on mode
-    const title = document.getElementById('orchard-title');
-    title.style.color = isDay ? '#000' : '#fff'; // Adjust title color
+    
+    // Reset volume when changing music
+    backgroundMusic.volume = volumeControl.value;
+    
+    // Resume playing if it was playing before
+    if (isMusicPlaying) {
+        backgroundMusic.play();
+        playPauseBtn.textContent = '❚❚';
+    } else {
+        backgroundMusic.pause();
+        playPauseBtn.textContent = '▶';
+    }
 }
 
+// Volume control event listener
+volumeControl.addEventListener('input', () => {
+    backgroundMusic.volume = volumeControl.value;
+});
+
+// Play/Pause button event listener
+playPauseBtn.addEventListener('click', () => {
+    if (backgroundMusic.paused) {
+        backgroundMusic.play();
+        playPauseBtn.textContent = '❚❚';
+        isMusicPlaying = true;
+    } else {
+        backgroundMusic.pause();
+        playPauseBtn.textContent = '▶';
+        isMusicPlaying = false;
+    }
+});
 
 // Event listeners for mode toggle
 toggleButton.addEventListener('click', () => {
@@ -241,5 +269,7 @@ adjustNavigationPosition();
 window.onload = () => {
     currentDayIndex = 0; // Start with the first day date
     currentNightIndex = 0; // Start with the first night date
+    // Set initial volume
+    backgroundMusic.volume = volumeControl.value;
     updateMode();
 };
