@@ -3,14 +3,20 @@ const gallery = document.getElementById('gallery');
 const toggleButton = document.getElementById('toggle');
 const prevDayButton = document.getElementById('prev-day');
 const nextDayButton = document.getElementById('next-day');
-const prevNightButton = document.getElementById('prev-night');
-const nextNightButton = document.getElementById('next-night');
 const backgroundMusic = document.getElementById('background-music');
+const dateElement = document.getElementById('date');  // For displaying the date
 
 // State
 let isDay = true;
 let currentDayIndex = 0;
 let currentNightIndex = 0;
+
+// Function to format the date
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
 
 // Function to generate random offset and rotation
 function applyRandomStyles(element) {
@@ -34,7 +40,7 @@ function addRandomHeight(imageElement) {
 function renderGallery(imagesByDate, isDayMode) {
     const currentIndex = isDayMode ? currentDayIndex : currentNightIndex;
     const date = isDayMode ? dayDates[currentIndex] : nightDates[currentIndex];
-    const images = imagesByDate[date]; // isDayMode ? dayImagesByDate[date] : nightImagesByDate[date];
+    const images = imagesByDate[date];
     
     gallery.innerHTML = ''; // Clear gallery
     images.forEach((src) => {
@@ -42,8 +48,28 @@ function renderGallery(imagesByDate, isDayMode) {
         img.src = src;
         applyRandomStyles(img);
         addRandomHeight(img);  // Apply random height to some images
+        img.addEventListener('click', () => openFullScreen(img)); // Add click event for full screen
         gallery.appendChild(img);
     });
+
+    // Update the date text next to the title
+    dateElement.textContent = `(${formatDate(date)})`;
+}
+
+// Function to open the image in fullscreen
+function openFullScreen(image) {
+    const fullScreenImage = document.createElement('img');
+    fullScreenImage.src = image.src;
+    fullscreenModal.innerHTML = ''; // Clear previous content
+    fullscreenModal.appendChild(fullScreenImage);
+    fullscreenModal.appendChild(closeModalButton); // Add close button
+    fullscreenModal.classList.add('active'); // Show modal
+    document.body.appendChild(fullscreenModal);
+}
+
+// Function to close the fullscreen modal
+function closeFullScreen() {
+    fullscreenModal.classList.remove('active');
 }
 
 // Function to update the mode
@@ -60,7 +86,11 @@ function updateMode() {
         toggleButton.textContent = 'sunrise?';
     }
     backgroundMusic.play();
+    // Update title color based on mode
+    const title = document.getElementById('orchard-title');
+    title.style.color = isDay ? '#000' : '#fff'; // Adjust title color
 }
+
 
 // Event listeners for mode toggle
 toggleButton.addEventListener('click', () => {
@@ -79,19 +109,9 @@ nextDayButton.addEventListener('click', () => {
     updateMode();
 });
 
-prevNightButton.addEventListener('click', () => {
-    currentNightIndex = (currentNightIndex - 1 + nightDates.length) % nightDates.length;
-    updateMode();
-});
-
-nextNightButton.addEventListener('click', () => {
-    currentNightIndex = (currentNightIndex + 1) % nightDates.length;
-    updateMode();
-});
-
 // Initialization
 window.onload = () => {
-    currentDayIndex = 0; // Start with the latest day date
-    currentNightIndex = 0; // Start with the latest night date
+    currentDayIndex = 0; // Start with the first day date
+    currentNightIndex = 0; // Start with the first night date
     updateMode();
 };

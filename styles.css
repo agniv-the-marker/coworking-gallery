@@ -22,46 +22,68 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: transparent;
-    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+    padding: 10px 20px;
     z-index: 1;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
 }
 
 .title {
     margin: 0;
     padding: 0;
     font-size: 24px;
+    transition: color 0.5s;
+}
+
+.date {
+    font-size: 14px; /* Smaller text for the date */
+    margin-left: 10px;
 }
 
 #toggle {
-    padding: 5px 10px;
+    padding: 5px 15px;
+    background-color: #333; /* Dark background during the day */
+    color: #fff;            /* Light text during the day */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .navigation {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
 }
 
 .nav-button {
     padding: 5px 15px;
-    margin: 0 5px;
+    margin: 0;
     background: none;
     border: 1px solid currentColor;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 60px;
+    margin-top: 90px; /* Space for header */
     justify-content: center;
     gap: 10px;
 }
 
 .gallery img {
-    max-width: calc(25% - 10px);  /* Maximum width, allows for up to 4 images per row */
+    max-width: calc(25% - 10px); /* Maximum width, allows for up to 4 images per row */
     flex-grow: 1;
-    object-fit: cover;           /* Ensures the image fills the space without distorting */
+    object-fit: cover;
     height: auto;
     border-radius: 5px;
     padding: 10px;
@@ -96,4 +118,50 @@ body {
 /* Randomize the height for mixing horizontal/vertical images */
 .gallery img.random-height {
     height: calc(100px + (200 * Math.random()))px; /* Random height between 100px and 300px */
+}
+
+/* Styling for the date text under the arrows */
+.date-text {
+    font-size: 12px;
+    color: #fff;
+    margin-top: 5px;
+}
+
+/* Footer at the bottom of the page */
+.footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    transition: color 0.5s;
+}
+
+/* Title color changes based on day/night modes */
+.light-mode .title {
+    color: #000;
+}
+
+.dark-mode .title {
+    color: #fff;
+}
+
+/* Footer text color changes based on day/night modes (opposite to title) */
+.light-mode .footer {
+    color: #000;
+}
+
+.dark-mode .footer {
+    color: #fff;
+}
+
+/* Toggle button styles based on day/night mode */
+.light-mode #toggle {
+    background-color: #333; /* Dark background during the day */
+    color: #fff;            /* Light text during the day */
+}
+
+.dark-mode #toggle {
+    background-color: #f5deb3; /* Light background during the night */
+    color: #333;               /* Dark text during the night */
 }

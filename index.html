@@ -8,14 +8,20 @@
 </head>
 <body>
     <div class="header">
-        <h1 class="title">[orchard] gallery</h1>
+        <div class="title-container">
+            <h1 class="title" id="orchard-title">[orchard] gallery</h1>
+            <span id="date" class="date"></span>
+        </div>
         <div class="navigation">
             <button id="prev-day" class="nav-button">← before.</button>
+            <button id="toggle" class="nav-button">sunset?</button>
             <button id="next-day" class="nav-button">after? →</button>
         </div>
-        <button id="toggle">sunset?</button>
     </div>
     <div id="gallery" class="gallery"></div>
+    <div class="footer">
+        <span>[made with love!]</span>
+    </div>
     <audio id="background-music" loop></audio>
     <script src="images.js"></script>
     <script src="script.js"></script>
