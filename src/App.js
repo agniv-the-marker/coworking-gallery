@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {dayImages, nightImages} from "images";
+import {dayImages, nightImages} from "./images";
 
 // Utility function to shuffle images
 const shuffleArray = (array) => {
