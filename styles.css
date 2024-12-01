@@ -97,6 +97,8 @@ body {
 /* Gallery images */
 .gallery img {
     flex-grow: 1;
+    object-fit: cover;
+    height: 200px; /* Fixed height to align all images */
     border-radius: 5px;
     padding: 10px;
     position: relative;
@@ -112,20 +114,14 @@ body {
 
 /* Style horizontal images */
 .gallery img.horizontal {
-    grid-column: auto / span 2;
     width: auto;
-    height: 200px; /* Ensure consistent height */
-    max-height: 100%; /* Let the image take the full height */
-    object-fit: cover;
+    height: 200px; /* You can adjust this based on your preference */
 }
-
 /* Style vertical images */
 .gallery img.vertical {
-    grid-row: span 2;
-    height: 100%; /* Let the image take the full height */
     max-width: calc(25% - 10px);
-    width: auto;
-    object-fit: cover; /* Keep aspect ratio */
+    height: auto;
+    width: 200px; /* You can adjust this based on your preference */
 }
 
 
