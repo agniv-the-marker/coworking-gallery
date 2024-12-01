@@ -20,9 +20,11 @@ function formatDate(dateStr) {
 
 // Function to generate random offset and rotation
 function applyRandomStyles(element) {
-    const rotation = `${Math.random() * 10 - 5}deg`; // Random rotation between -5 and 5 degrees
-    const offsetX = `${Math.random() * 10 - 5}px`;
-    const offsetY = `${Math.random() * 10 - 5}px`;
+    const rot = 20;
+    const offset = 15;
+    const rotation = `${Math.random() * rot - rot/2}deg`;
+    const offsetX = `${Math.random() * offset - offset/2}px`;
+    const offsetY = `${Math.random() * offset - offset/2}px`;
 
     element.style.setProperty('--rotation', rotation);
     element.style.setProperty('--offsetX', offsetX);

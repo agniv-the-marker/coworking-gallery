@@ -101,13 +101,15 @@ body {
     height: 200px; /* Fixed height to align all images */
     margin-left: -40px;
     margin-right: -40px;
-    /* border-radius: 5px;
-    padding: 10px; */ /* this gives it the outline */
+    border: 3px solid #fff; /* Thin white border */
+    border-radius: 5px;
+    /* padding: 10px; */ /* this gives it the outline */
     position: relative;
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
     transform-origin: center;
     transform: scale(0.9) rotate(var(--rotation));
     box-shadow: var(--offsetX) var(--offsetY) 5px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5); /* Darkens the edges */
     background-color: var(--padding-color); /* Use custom CSS variable for background color */
     display: flex;
     /* align-items: center; /* Vertically center the image */
@@ -162,8 +164,10 @@ body {
 
 /* Ensure image itself has a higher z-index than the dim effect */
 .gallery img:hover {
-    transform: scale(1.05);
+    transform: scale(1.2);
     z-index: 2;  /* Make sure the image comes above the dimming effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0); /* Stronger shadow on hover */
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0); /* Darkens the edges */
 }
 
 /* Optional: Pin effect on image hover */
