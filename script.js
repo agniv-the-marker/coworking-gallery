@@ -49,6 +49,16 @@ function renderGallery(imagesByDate, isDayMode) {
         img.src = src;
         applyRandomStyles(img);
         addRandomHeight(img);  // Apply random height to some images
+        
+        // Detect image aspect ratio and apply class
+        img.onload = () => {
+            if (img.naturalWidth > img.naturalHeight) {
+                img.classList.add('horizontal');
+            } else {
+                img.classList.add('vertical');
+            }
+        };
+
         img.addEventListener('click', () => openFullScreen(img)); // Add click event for full screen
         gallery.appendChild(img);
     });
@@ -57,16 +67,13 @@ function renderGallery(imagesByDate, isDayMode) {
     dateElement.textContent = `(${formatDate(date)})`;
 }
 
-// Function to open the image in fullscreen
+
+// Function to open the image in a new tab
 function openFullScreen(image) {
-    const fullScreenImage = document.createElement('img');
-    fullScreenImage.src = image.src;
-    fullscreenModal.innerHTML = ''; // Clear previous content
-    fullscreenModal.appendChild(fullScreenImage);
-    fullscreenModal.appendChild(closeModalButton); // Add close button
-    fullscreenModal.classList.add('active'); // Show modal
-    document.body.appendChild(fullscreenModal);
+    const imageUrl = image.src;
+    window.open(imageUrl, '_blank');  // Open image in new tab
 }
+
 
 // Function to close the fullscreen modal
 function closeFullScreen() {

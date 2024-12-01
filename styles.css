@@ -99,7 +99,6 @@ body {
     max-width: calc(25% - 10px);
     flex-grow: 1;
     object-fit: cover;
-    height: auto;
     border-radius: 5px;
     padding: 10px;
     position: relative;
@@ -109,6 +108,21 @@ body {
     box-shadow: var(--offsetX) var(--offsetY) 5px rgba(0, 0, 0, 0.5);
     background-color: var(--padding-color); /* Use custom CSS variable for background color */
 }
+
+/* Style horizontal images */
+.gallery img.horizontal {
+    max-width: calc(25% - 10px);
+    width: auto;
+    height: 200px; /* You can adjust this based on your preference */
+}
+
+/* Style vertical images */
+.gallery img.vertical {
+    max-width: calc(25% - 10px);
+    height: auto;
+    width: 200px; /* You can adjust this based on your preference */
+}
+
 
 /* Adjust padding color based on day/night mode */
 .light-mode .gallery img {
