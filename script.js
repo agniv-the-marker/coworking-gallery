@@ -64,7 +64,8 @@ function renderGallery(imagesByDate, isDayMode) {
     
     images.forEach((src) => {
         const img = document.createElement('img');
-        img.src = src;
+        img.src = src
+        img.loading = 'lazy';  // Add this line for lazy loading
         applyRandomStyles(img);
         addRandomHeight(img);  // Apply random height to some images
         
