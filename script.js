@@ -1,12 +1,4 @@
-const dayImagesByDate = {
-    "2024-11-16": ["images/day1.jpg", "images/day2.jpg"],
-    "2024-11-17": ["images/day3.jpg", "images/day4.jpg"]
-};
-
-const nightImagesByDate = {
-    "2024-11-16": ["images/night1.jpg", "images/night2.jpg"],
-    "2024-11-17": ["images/night3.jpg", "images/night4.jpg"]
-};
+import { dayImagesByDate, nightImagesByDate } from "./images.js";
 
 let currentMode = "day";
 let currentDateIndex = 0;
