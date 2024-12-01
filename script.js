@@ -1,84 +1,67 @@
-// Import day and night image data
-import { dayImagesByDate, nightImagesByDate } from './images.js';
+const dayImagesByDate = {
+    "2024-11-16": ["images/day1.jpg", "images/day2.jpg"],
+    "2024-11-17": ["images/day3.jpg", "images/day4.jpg"]
+};
 
-// State variables
-let currentMode = "day"; // "day" or "night"
-let currentDates = Object.keys(dayImagesByDate).sort(); // Sorted date keys
-let currentIndex = 0;
+const nightImagesByDate = {
+    "2024-11-16": ["images/night1.jpg", "images/night2.jpg"],
+    "2024-11-17": ["images/night3.jpg", "images/night4.jpg"]
+};
 
-// DOM references
-const galleryContainer = document.getElementById("gallery");
-const modeToggle = document.getElementById("toggle");
-const prevButton = document.createElement("button");
-const nextButton = document.createElement("button");
-const navigationContainer = document.getElementById("navigation");
+let currentMode = "day";
+let currentDateIndex = 0;
+const dates = Object.keys(dayImagesByDate);
 
-// Initialize arrows
-prevButton.className = "nav-button";
-prevButton.innerHTML = "&#8592;";
-nextButton.className = "nav-button";
-nextButton.innerHTML = "&#8594;";
-navigationContainer.appendChild(prevButton);
-navigationContainer.appendChild(nextButton);
+const gallery = document.getElementById("gallery");
+const toggleModeButton = document.getElementById("toggle-mode");
+const prevDateButton = document.getElementById("prev-date");
+const nextDateButton = document.getElementById("next-date");
 
-// Function to get current images based on mode and index
-function getCurrentImages() {
-    const imageGroups = currentMode === "day" ? dayImagesByDate : nightImagesByDate;
-    const currentDate = currentDates[currentIndex];
-    return imageGroups[currentDate] || [];
+function getRandomTransform() {
+    return {
+        rotation: `${Math.random() * 10 - 5}deg`,
+        xOffset: `${Math.random() * 10 - 5}px`,
+        yOffset: `${Math.random() * 10 - 5}px`,
+        scale: `${1 + Math.random() * 0.1}`
+    };
 }
 
-// Function to render images
-function renderImages() {
-    const images = getCurrentImages();
-    galleryContainer.innerHTML = ""; // Clear previous images
+function updateGallery() {
+    gallery.innerHTML = "";
+    const imagesByDate = currentMode === "day" ? dayImagesByDate : nightImagesByDate;
+    const date = dates[currentDateIndex];
 
-    images.forEach((imageSrc, idx) => {
-        setTimeout(() => {
-            const img = document.createElement("img");
-            img.src = imageSrc;
-            img.className = "gallery-image";
-            img.style.transform = `rotate(${Math.random() * 10 - 5}deg) scale(${1 + Math.random() * 0.2})`;
-            galleryContainer.appendChild(img);
-        }, idx * 200); // Stagger image loading by 200ms
+    const images = imagesByDate[date] || [];
+    images.forEach((src) => {
+        const img = document.createElement("img");
+        img.src = src;
+
+        const { rotation, xOffset, yOffset, scale } = getRandomTransform();
+        img.style.setProperty("--rotation", rotation);
+        img.style.setProperty("--x-offset", xOffset);
+        img.style.setProperty("--y-offset", yOffset);
+        img.style.setProperty("--scale", scale);
+
+        img.classList.add("rotated");
+        gallery.appendChild(img);
     });
 }
 
-// Function to update navigation state
-function updateNavigation() {
-    prevButton.disabled = currentIndex === 0;
-    nextButton.disabled = currentIndex === currentDates.length - 1;
+function toggleMode() {
+    currentMode = currentMode === "day" ? "night" : "day";
+    document.body.className = currentMode === "day" ? "day-mode" : "night-mode";
+    toggleModeButton.textContent = currentMode === "day" ? "🌞" : "🌙";
+    updateGallery();
 }
 
-// Event listener for mode toggle
-modeToggle.addEventListener("click", () => {
-    currentMode = currentMode === "day" ? "night" : "day";
-    currentDates = Object.keys(currentMode === "day" ? dayImagesByDate : nightImagesByDate).sort();
-    currentIndex = 0; // Reset to the first date group
-    document.body.className = currentMode === "day" ? "light-mode" : "dark-mode";
-    renderImages();
-    updateNavigation();
-});
+function changeDate(offset) {
+    currentDateIndex = (currentDateIndex + offset + dates.length) % dates.length;
+    updateGallery();
+}
 
-// Event listener for navigation buttons
-prevButton.addEventListener("click", () => {
-    if (currentIndex > 0) {
-        currentIndex--;
-        renderImages();
-        updateNavigation();
-    }
-});
+toggleModeButton.addEventListener("click", toggleMode);
+prevDateButton.addEventListener("click", () => changeDate(-1));
+nextDateButton.addEventListener("click", () => changeDate(1));
 
-nextButton.addEventListener("click", () => {
-    if (currentIndex < currentDates.length - 1) {
-        currentIndex++;
-        renderImages();
-        updateNavigation();
-    }
-});
-
-// Initial render
-document.addEventListener("DOMContentLoaded", () => {
-    renderImages();
-    updateNavigation();
-});
+document.body.className = "day-mode";
+updateGallery();

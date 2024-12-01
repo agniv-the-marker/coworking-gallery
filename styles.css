@@ -1,132 +1,73 @@
-/* General Styles */
 body {
     margin: 0;
-    padding: 0;
     font-family: Arial, sans-serif;
-    transition: background-color 0.5s, color 0.5s;
 }
 
-.light-mode {
-    background-color: #fdf5e6; /* Warm brown for daytime */
-    color: #333;
-}
-
-.dark-mode {
-    background-color: #121212; /* Dark gray for nighttime */
-    color: #fff;
-}
-
-/* Header Styles */
-.header {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 20px;
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    text-align: center;
+    background-color: #333;
+    color: white;
 }
 
 h1 {
+    font-size: 1.5rem;
     margin: 0;
-    font-family: 'Lobster', cursive; /* Fun font */
-    font-size: 2em;
-    color: #333;
 }
 
-/* Toggle Button Styles */
-#toggle {
-    margin-top: 10px;
+#toggle-mode {
     background: none;
     border: none;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
+    color: white;
 }
 
-#toggle:hover {
-    transform: scale(1.2);
-}
-
-.sun-moon-icon {
-    font-size: 1.5em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Shadow for emoji */
-}
-
-/* Navigation Arrows */
-#navigation {
+main {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    min-height: calc(100vh - 120px);
+    padding: 20px;
 }
 
-.nav-button {
-    font-size: 2em;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.nav-button:hover {
-    background-color: rgba(200, 200, 200, 0.8);
-    transform: scale(1.1);
-}
-
-.nav-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Gallery Container */
 #gallery {
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
     justify-content: center;
-    gap: 15px;
-    padding: 10px;
-    margin-top: 100px;
 }
 
-/* Individual Images */
-.gallery-image {
-    max-width: 45%;
-    margin: 10px;
-    border: 2px solid rgba(0, 0, 0, 0.2);
+#gallery img {
+    display: block;
+    max-width: 100%;
     border-radius: 5px;
-    transition: transform 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform-origin: center;
+    padding: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.gallery-image:hover {
-    transform: scale(1.1) rotate(0deg); /* Remove rotation on hover */
+footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .gallery-image {
-        max-width: 90%; /* Adjust for smaller screens */
-    }
+button {
+    cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    .header {
-        width: 90%;
-    }
+body.day-mode {
+    background-color: #f4e1d2; /* Slight brown background */
+}
 
-    h1 {
-        font-size: 1.5em;
-    }
+body.night-mode {
+    background-color: #0a1d47; /* Deep blue background */
+}
 
-    .nav-button {
-        font-size: 1.5em;
-    }
+.rotated {
+    transform: rotate(var(--rotation)) translate(var(--x-offset), var(--y-offset)) scale(var(--scale));
 }
