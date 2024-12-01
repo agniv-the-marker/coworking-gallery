@@ -22,7 +22,14 @@ const ImageGallery = () => {
   // Organize images into rows
   const organizeImages = async (imageList) => {
     const orientations = await Promise.all(
-      imageList.map(src => getImageOrientation(src))
+      imageList.map(async (src) => {
+        try {
+          return await getImageOrientation(src);
+        } catch (error) {
+          console.error(`Error getting orientation for image ${src}: ${error}`);
+          return 'horizontal'; // Default to horizontal if there's an error
+        }
+      })
     );
 
     const rows = [];
