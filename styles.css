@@ -85,22 +85,24 @@ body {
 .gallery {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
     margin-top: 120px; /* Increased space for the header */
     margin-bottom: 90px; /* Increased space for the footer */
     margin-left: 5%;
     margin-right: 5%;
-    justify-content: center;
-    gap: 10px;
     align-items: center; /* Ensure that all images are aligned to the center */
 }
-
 /* Gallery images */
 .gallery img {
     flex-grow: 1;
     object-fit: cover;
     height: 200px; /* Fixed height to align all images */
-    border-radius: 5px;
-    padding: 10px;
+    margin-left: -40px;
+    margin-right: -40px;
+    /* border-radius: 5px;
+    padding: 10px; */ /* this gives it the outline */
     position: relative;
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
     transform-origin: center;
@@ -108,17 +110,21 @@ body {
     box-shadow: var(--offsetX) var(--offsetY) 5px rgba(0, 0, 0, 0.5);
     background-color: var(--padding-color); /* Use custom CSS variable for background color */
     display: flex;
-    align-items: center; /* Vertically center the image */
-    justify-content: center; /* Horizontally center the image */
+    /* align-items: center; /* Vertically center the image */
+    /* justify-content: center; /* Horizontally center the image */
 }
 
 /* Style horizontal images */
 .gallery img.horizontal {
+    margin-top: -10px;
+    margin-bottom: -10px;
     width: auto;
     height: 200px; /* You can adjust this based on your preference */
 }
 /* Style vertical images */
 .gallery img.vertical {
+    margin-top: -100px;
+    margin-bottom: -60px;
     max-width: calc(25% - 10px);
     height: auto;
     width: 200px; /* You can adjust this based on your preference */
@@ -159,6 +165,25 @@ body {
     transform: scale(1.05);
     z-index: 2;  /* Make sure the image comes above the dimming effect */
 }
+
+/* Optional: Pin effect on image hover */
+.gallery img:before {
+    content: '\f0c5';  /* Font Awesome pin icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    font-size: 25px;
+    color: #f5a623;
+    display: none;
+}
+
+/* Show pin icon when image is hovered */
+.gallery img:hover:before {
+    display: block;
+}
+
 
 /* Randomize the height for mixing horizontal/vertical images */
 .gallery img.random-height {
@@ -266,5 +291,14 @@ body {
     .nav-button {
         font-size: 12px;
         padding: 5px 8px;
+    }
+
+    /* Style horizontal images */
+    .gallery img.horizontal {
+        margin-top: -15px;
+        margin-bottom: -15px;
+        width: auto;
+        max-width: calc(60% - 10px);
+        height: 200px; /* You can adjust this based on your preference */
     }
 }
