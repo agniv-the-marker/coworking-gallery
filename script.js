@@ -1,52 +1,84 @@
-// Selecting elements
-const gallery = document.getElementById('gallery');
-const toggleButton = document.getElementById('toggle');
-const backgroundMusic = document.getElementById('background-music');
-const icon = document.getElementById('icon');
+// Import day and night image data
+import { dayImagesByDate, nightImagesByDate } from './images.js';
 
-// Initial state
-let isDay = true;
+// State variables
+let currentMode = "day"; // "day" or "night"
+let currentDates = Object.keys(dayImagesByDate).sort(); // Sorted date keys
+let currentIndex = 0;
 
-// Function to render images with random offset
-function renderGallery(images) {
-    gallery.innerHTML = ''; // Clear the gallery
+// DOM references
+const galleryContainer = document.getElementById("gallery");
+const modeToggle = document.getElementById("toggle");
+const prevButton = document.createElement("button");
+const nextButton = document.createElement("button");
+const navigationContainer = document.getElementById("navigation");
 
-    images.forEach((src) => {
-        const img = document.createElement('img');
-        img.src = src;
+// Initialize arrows
+prevButton.className = "nav-button";
+prevButton.innerHTML = "&#8592;";
+nextButton.className = "nav-button";
+nextButton.innerHTML = "&#8594;";
+navigationContainer.appendChild(prevButton);
+navigationContainer.appendChild(nextButton);
 
-        // Randomly offset images by adding a class
-        if (Math.random() > 0.5) {
-            img.classList.add('offset');
-        }
+// Function to get current images based on mode and index
+function getCurrentImages() {
+    const imageGroups = currentMode === "day" ? dayImagesByDate : nightImagesByDate;
+    const currentDate = currentDates[currentIndex];
+    return imageGroups[currentDate] || [];
+}
 
-        gallery.appendChild(img);
+// Function to render images
+function renderImages() {
+    const images = getCurrentImages();
+    galleryContainer.innerHTML = ""; // Clear previous images
+
+    images.forEach((imageSrc, idx) => {
+        setTimeout(() => {
+            const img = document.createElement("img");
+            img.src = imageSrc;
+            img.className = "gallery-image";
+            img.style.transform = `rotate(${Math.random() * 10 - 5}deg) scale(${1 + Math.random() * 0.2})`;
+            galleryContainer.appendChild(img);
+        }, idx * 200); // Stagger image loading by 200ms
     });
 }
 
-// Function to update the mode
-function updateMode() {
-    if (isDay) {
-        document.body.className = 'light-mode';
-        renderGallery(dayImages);
-        backgroundMusic.src = '/audio/day-music.mp3';
-        icon.textContent = '🌞';
-        toggleButton.setAttribute('aria-label', 'Switch to Night Mode');
-    } else {
-        document.body.className = 'dark-mode';
-        renderGallery(nightImages);
-        backgroundMusic.src = '/audio/night-music.mp3';
-        icon.textContent = '🌙';
-        toggleButton.setAttribute('aria-label', 'Switch to Day Mode');
-    }
-    backgroundMusic.play();
+// Function to update navigation state
+function updateNavigation() {
+    prevButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === currentDates.length - 1;
 }
 
-// Event listener for toggle
-toggleButton.addEventListener('click', () => {
-    isDay = !isDay;
-    updateMode();
+// Event listener for mode toggle
+modeToggle.addEventListener("click", () => {
+    currentMode = currentMode === "day" ? "night" : "day";
+    currentDates = Object.keys(currentMode === "day" ? dayImagesByDate : nightImagesByDate).sort();
+    currentIndex = 0; // Reset to the first date group
+    document.body.className = currentMode === "day" ? "light-mode" : "dark-mode";
+    renderImages();
+    updateNavigation();
+});
+
+// Event listener for navigation buttons
+prevButton.addEventListener("click", () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        renderImages();
+        updateNavigation();
+    }
+});
+
+nextButton.addEventListener("click", () => {
+    if (currentIndex < currentDates.length - 1) {
+        currentIndex++;
+        renderImages();
+        updateNavigation();
+    }
 });
 
 // Initial render
-updateMode();
+document.addEventListener("DOMContentLoaded", () => {
+    renderImages();
+    updateNavigation();
+});
