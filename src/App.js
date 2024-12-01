@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {dayImages, nightImages} from "./images";
+import { dayImages, nightImages } from "./images";
 
 // Utility function to shuffle images
-const shuffleArray = (array) => {
-  return array.sort(() => Math.random() - 0.5);
-};
+const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
 const CoworkingSpaceGallery = () => {
   const [images, setImages] = useState([]);
@@ -12,17 +10,14 @@ const CoworkingSpaceGallery = () => {
   const [isDayMode, setIsDayMode] = useState(true);
   const [audio, setAudio] = useState(null);
 
-  // Function to toggle day/night mode
   const toggleMode = () => {
     setIsDayMode(!isDayMode);
   };
 
-  // Update images and shuffle on mode change
   useEffect(() => {
     const newImages = shuffleArray(isDayMode ? dayImages : nightImages);
     setImages(newImages);
 
-    // Update background music
     if (audio) audio.pause();
     const newAudio = new Audio(
       isDayMode ? "/audio/day-music.mp3" : "/audio/night-music.mp3"
@@ -31,7 +26,6 @@ const CoworkingSpaceGallery = () => {
     newAudio.play();
     setAudio(newAudio);
 
-    // Cleanup audio on unmount
     return () => newAudio.pause();
   }, [isDayMode]);
 
@@ -41,8 +35,8 @@ const CoworkingSpaceGallery = () => {
         isDayMode ? "bg-yellow-100 text-gray-800" : "bg-gray-900 text-white"
       }`}
     >
-      {/* Day/Night Toggle */}
-      <div className="flex justify-end mb-4">
+      {/* Toggle Switch */}
+      <div className="flex justify-end p-4">
         <label className="flex items-center cursor-pointer">
           <div className="relative">
             <input
@@ -70,17 +64,17 @@ const CoworkingSpaceGallery = () => {
         </label>
       </div>
 
-      {/* Gallery Title */}
+      {/* Centered Title */}
       <h1
-        className={`text-3xl font-bold mb-6 ${
+        className={`text-4xl font-bold text-center mb-6 ${
           isDayMode ? "text-gray-800" : "text-white"
         }`}
       >
-        Coworking Space Gallery
+        [orchard]!
       </h1>
 
       {/* Image Grid */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {images.map((image, index) => (
           <div
             key={index}
@@ -90,14 +84,11 @@ const CoworkingSpaceGallery = () => {
                 : "hover:shadow-xl hover:shadow-indigo-500/50"
             }`}
             onClick={() => setSelectedImage(image)}
-            style={{
-              gridColumn: image.includes("vertical") ? "span 1" : "span 2",
-            }}
           >
             <img
               src={image}
               alt={`Coworking space ${index + 1}`}
-              className="w-full h-48 object-cover"
+              className="w-full h-auto object-cover"
             />
           </div>
         ))}
