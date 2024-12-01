@@ -100,14 +100,14 @@ toggleButton.addEventListener('click', () => {
 
 // Event listeners for navigating between day/night dates
 prevDayButton.addEventListener('click', () => {
-    currentDayIndex = (currentDayIndex - 1 + dayDates.length) % dayDates.length;
-    currentNightIndex = (currentNightIndex - 1 + nightDates.length) % nightDates.length;
+    currentDayIndex = Math.max(0, currentDayIndex - 1);
+    currentNightIndex = Math.max(0, currentNightIndex - 1);
     updateMode();
 });
 
 nextDayButton.addEventListener('click', () => {
-    currentDayIndex = (currentDayIndex + 1) % dayDates.length;
-    currentNightIndex = (currentNightIndex + 1) % nightDates.length;
+    currentDayIndex = Math.min(dayDates.length - 1, currentDayIndex + 1);
+    currentNightIndex = Math.min(nightDates.length - 1, currentNightIndex + 1);
     updateMode();
 });
 

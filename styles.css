@@ -1,3 +1,4 @@
+/* Basic styles */
 body {
     margin: 0;
     padding: 0;
@@ -30,6 +31,16 @@ body {
 .title-container {
     display: flex;
     align-items: center;
+}
+
+.title-link {
+    text-decoration: none;  /* Remove default link styling */
+    color: inherit;  /* Inherit color from the surrounding text */
+}
+
+.title-link:hover {
+    text-decoration: underline;  /* Underline on hover */
+    text-decoration-thickness: 2px;  /* Make the underline thinner */
 }
 
 .title {
@@ -75,10 +86,11 @@ body {
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 90px; /* Space for header */
+    margin-top: 120px; /* Increased space for the header */
     justify-content: center;
     gap: 10px;
 }
+
 
 .gallery img {
     max-width: calc(25% - 10px); /* Maximum width, allows for up to 4 images per row */
@@ -136,6 +148,30 @@ body {
     font-size: 14px;
     transition: color 0.5s;
 }
+
+/* Instagram Icon styling */
+.instagram-link {
+    margin-left: 10px;  /* Space between text and icon */
+    color: inherit;  /* Inherit text color */
+    text-decoration: none;  /* Remove underline */
+    font-size: 16px;  /* Smaller Instagram icon */
+}
+
+/* Instagram icon color based on light/dark mode */
+.light-mode .instagram-link i,
+.dark-mode .instagram-link i {
+    color: #000;  /* Black icon in light mode */
+}
+
+.dark-mode .instagram-link i {
+    color: #fff;  /* White icon in dark mode */
+}
+
+.instagram-link:hover i {
+    color: #E1306C;  /* Instagram brand color when hovered */
+    transition: color 0.3s ease 0.1s;  /* Delay transition on hover */
+}
+
 
 /* Title color changes based on day/night modes */
 .light-mode .title {

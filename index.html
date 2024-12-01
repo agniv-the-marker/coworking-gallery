@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[orchard] gallery</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Add FontAwesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="header">
         <div class="title-container">
-            <h1 class="title" id="orchard-title">[orchard] gallery</h1>
+            <!-- Link for [orchard] -->
+            <a href="https://lu.ma/orchard" id="orchard-title-link" class="title-link">
+                <h1 id="orchard-title">[orchard] gallery</h1>
+            </a>
             <span id="date" class="date"></span>
         </div>
         <div class="navigation">
@@ -21,6 +26,10 @@
     <div id="gallery" class="gallery"></div>
     <div class="footer">
         <span>[made with love!]</span>
+        <!-- Instagram Icon Link -->
+        <a href="https://www.instagram.com/orchard.oxford/" target="_blank" class="instagram-link">
+            <i class="fab fa-instagram"></i>  <!-- Instagram Icon -->
+        </a>
     </div>
     <audio id="background-music" loop></audio>
     <script src="images.js"></script>
