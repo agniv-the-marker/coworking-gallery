@@ -92,6 +92,7 @@ body {
     margin-right: 5%;
     justify-content: center;
     gap: 10px;
+    align-items: center; /* Ensure that all images are aligned to the center */
 }
 
 /* Gallery images */
@@ -99,6 +100,7 @@ body {
     max-width: calc(25% - 10px);
     flex-grow: 1;
     object-fit: cover;
+    height: 200px; /* Fixed height to align all images */
     border-radius: 5px;
     padding: 10px;
     position: relative;
@@ -107,20 +109,23 @@ body {
     transform: scale(0.9) rotate(var(--rotation));
     box-shadow: var(--offsetX) var(--offsetY) 5px rgba(0, 0, 0, 0.5);
     background-color: var(--padding-color); /* Use custom CSS variable for background color */
+    display: flex;
+    align-items: center; /* Vertically center the image */
+    justify-content: center; /* Horizontally center the image */
 }
 
 /* Style horizontal images */
 .gallery img.horizontal {
-    max-width: calc(25% - 10px);
     width: auto;
-    height: 200px; /* You can adjust this based on your preference */
+    height: 200px; /* Ensure consistent height */
+    object-fit: cover;
 }
 
 /* Style vertical images */
 .gallery img.vertical {
-    max-width: calc(25% - 10px);
-    height: auto;
-    width: 200px; /* You can adjust this based on your preference */
+    height: 100%; /* Let the image take the full height */
+    width: auto;
+    object-fit: cover; /* Keep aspect ratio */
 }
 
 
@@ -134,7 +139,7 @@ body {
 }
 
 
-/* Dim the images */
+/* Add dimming effect using ::before pseudo-element */
 .gallery img::before {
     content: "";
     position: absolute;
@@ -143,16 +148,20 @@ body {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black overlay to dim the image */
-    transition: opacity 0.3s;
+    opacity: 1;
+    transition: opacity 0.3s;  /* Smooth transition for dimming effect */
+    z-index: 1; /* Ensure the dimming is on top of the image */
 }
 
 /* Remove dim effect on hover */
 .gallery img:hover::before {
-    opacity: 0;
+    opacity: 0;  /* Make the overlay disappear */
 }
 
+/* Ensure image itself has a higher z-index than the dim effect */
 .gallery img:hover {
     transform: scale(1.05);
+    z-index: 2;  /* Make sure the image comes above the dimming effect */
 }
 
 /* Randomize the height for mixing horizontal/vertical images */

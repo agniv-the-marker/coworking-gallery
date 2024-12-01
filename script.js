@@ -36,12 +36,28 @@ function addRandomHeight(imageElement) {
     }
 }
 
+// Function to slightly randomize the order of images
+function shuffleImages(images) {
+    // Define how many positions we will randomly swap
+    const numSwaps = Math.floor(images.length * 0.2);  // 20% of images will be swapped
+    for (let i = 0; i < numSwaps; i++) {
+        const index1 = Math.floor(Math.random() * images.length);
+        const index2 = Math.floor(Math.random() * images.length);
+        // Swap images at index1 and index2
+        [images[index1], images[index2]] = [images[index2], images[index1]];
+    }
+    return images;
+}
+
 // Function to render images for a specific day or night date
 function renderGallery(imagesByDate, isDayMode) {
     const currentIndex = isDayMode ? currentDayIndex : currentNightIndex;
     const date = isDayMode ? dayDates[currentIndex] : nightDates[currentIndex];
-    const images = imagesByDate[date];
+    let images = imagesByDate[date];
     
+    // Shuffle the images slightly
+    images = shuffleImages(images);
+
     gallery.innerHTML = ''; // Clear gallery
     
     images.forEach((src) => {
@@ -66,7 +82,6 @@ function renderGallery(imagesByDate, isDayMode) {
     // Update the date text next to the title
     dateElement.textContent = `(${formatDate(date)})`;
 }
-
 
 // Function to open the image in a new tab
 function openFullScreen(image) {
