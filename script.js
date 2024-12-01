@@ -91,7 +91,6 @@ let fullscreenModal = null;
 let currentFullscreenImageIndex = 0;
 let currentFullscreenImages = [];
 
-// Modify the existing openFullScreen function
 function openFullScreen(image) {
     // If modal doesn't exist, create it
     if (!fullscreenModal) {
@@ -132,22 +131,42 @@ function openFullScreen(image) {
     // Set up the fullscreen image
     const fullscreenImage = document.getElementById('fullscreen-image');
     fullscreenImage.src = image.src;
+    
+    // Add appropriate class based on image orientation
+    if (image.classList.contains('vertical')) {
+        fullscreenImage.classList.add('vertical-fullscreen');
+    } else if (image.classList.contains('horizontal')) {
+        fullscreenImage.classList.add('horizontal-fullscreen');
+    }
+    
     fullscreenModal.classList.add('active');
 }
 
-// Function to navigate between images in fullscreen
+// Modify navigateFullscreen to handle image classes
 function navigateFullscreen(direction) {
     currentFullscreenImageIndex += direction;
 
-    // Do not wrap around if we go past the start or end
+    // Wrap around if we go past the start or end
     if (currentFullscreenImageIndex >= currentFullscreenImages.length) {
-        currentFullscreenImageIndex = currentFullscreenImages.length - 1;
-    } else if (currentFullscreenImageIndex < 0) {
         currentFullscreenImageIndex = 0;
+    } else if (currentFullscreenImageIndex < 0) {
+        currentFullscreenImageIndex = currentFullscreenImages.length - 1;
     }
 
     const fullscreenImage = document.getElementById('fullscreen-image');
-    fullscreenImage.src = currentFullscreenImages[currentFullscreenImageIndex].src;
+    const nextImage = currentFullscreenImages[currentFullscreenImageIndex];
+    
+    // Reset previous classes
+    fullscreenImage.classList.remove('vertical-fullscreen', 'horizontal-fullscreen');
+    
+    // Add appropriate class based on image orientation
+    if (nextImage.classList.contains('vertical')) {
+        fullscreenImage.classList.add('vertical-fullscreen');
+    } else if (nextImage.classList.contains('horizontal')) {
+        fullscreenImage.classList.add('horizontal-fullscreen');
+    }
+    
+    fullscreenImage.src = nextImage.src;
 }
 
 // Function to close the fullscreen modal
